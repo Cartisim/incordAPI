@@ -50,10 +50,11 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     // Configure migrations
     var migrations = MigrationConfig()
+    migrations.add(model: CreateAccount.self, database: .psql)
     migrations.add(model: SubChannel.self, database: .psql)
     migrations.add(model: Message.self, database: .psql)
-    migrations.add(model: CreateAccount.self, database: .psql)
     migrations.add(model: Channel.self, database: .psql)
+    migrations.add(model: ChannelImage.self, database: .psql)
     migrations.add(model: AuthToken.self, database: .psql)
     migrations.add(migration: AdminAccount.self, database: .psql)
     services.register(migrations)
@@ -65,12 +66,10 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     let directoryConfig = DirectoryConfig.detect()
     services.register(directoryConfig)
-    
+     
     // Create a new NIO websocket server
     let wss = NIOWebSocketServer.default()
     try socketRouter(wss)
     // Register our server
     services.register(wss, as: WebSocketServer.self)
-    
-    
 }

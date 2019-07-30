@@ -1,5 +1,7 @@
+import Routing
 import Vapor
-import WebSocket
+import Foundation
+import Fluent
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
@@ -21,14 +23,4 @@ public func routes(_ router: Router) throws {
     try router.register(collection: subChannelController)
 }
 
-public func socketRouter(_ socketServer: NIOWebSocketServer) throws {
-    // Add WebSocket upgrade support to GET /echo
-    socketServer.get("api/channel") { ws, req in
-        // Add a new on text callback
-        ws.onText { ws, text in
-            // Simply echo any received text
-            ws.send("Connected")
-            
-        }
-    }
-}
+
