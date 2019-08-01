@@ -12,11 +12,10 @@ let package = Package(
         // 🔵 Swift ORM (queries, models, relations, etc) built on SQLite 3.
         //We will use PostgreSQL
         .package(url: "https://github.com/vapor/fluent-postgresql.git", .upToNextMinor(from: "1.0.0")),
-        .package(url: "https://github.com/vapor/auth.git", .upToNextMinor(from: "2.0.4")),
-        .package(url: "https://github.com/vapor/websocket.git", .upToNextMinor(from: "1.1.2")),
+        .package(url: "https://github.com/vapor/auth.git", .upToNextMinor(from: "2.0.4"))
     ],
     targets: [
-        .target(name: "App", dependencies: ["FluentPostgreSQL", "Vapor", "Authentication", "WebSocket"]),
+        .target(name: "App", dependencies: ["FluentPostgreSQL", "Vapor", "Authentication"]),
         .target(name: "Run", dependencies: ["App"]),
         .testTarget(name: "AppTests", dependencies: ["App"])
     ]
