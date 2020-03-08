@@ -36,14 +36,14 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     }
     
     let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
-    let username = Environment.get("DATABASE_USERNAME") ?? "incord"
+    let username = Environment.get("DATABASE_USERNAME") ?? "cartisim"
     //    let password = Environment.get("DATABASE_PASSWORD") ?? "password"
     
     // Configure a Postgres database
     let databaseConfig = PostgreSQLDatabaseConfig(hostname: hostname, port: port, username: username, database: database)
     let psql = PostgreSQLDatabase(config: databaseConfig)
     
-    // Register the configured SQLite database to the database config.
+    // Register the configured PSQL database to the database config.
     var databases = DatabasesConfig()
     databases.add(database: psql, as: .psql)
     services.register(databases)
@@ -59,13 +59,13 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(migration: AdminAccount.self, database: .psql)
     services.register(migrations)
     
+     //Configure Vapors commands
     var commandConfig = CommandConfig.default()
     commandConfig.useFluentCommands()
-    //    commandConfig.use(RevertCommand.self, as: "revert")
     services.register(commandConfig)
     
-    let directoryConfig = DirectoryConfig.detect()
-    services.register(directoryConfig)
+    //We need to expand the byte size for sending requests
+    services.register(NIOServerConfig.default(maxBodySize: 20_000_000))
      
     // Create a new NIO websocket server
     let wss = NIOWebSocketServer.default()

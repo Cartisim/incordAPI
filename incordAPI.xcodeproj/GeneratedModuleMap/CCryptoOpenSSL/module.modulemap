@@ -1,4 +1,4 @@
 module CCryptoOpenSSL {
-    umbrella "/Users/cartisim/Documents/TeachingDevelopment/Chat App/incordAPI/.build/checkouts/crypto/Sources/CCryptoOpenSSL/include"
+    umbrella "/Users/cartisim/Developer/TeachingDevelopment/Chat App/Alpha/incordAPI/.build/checkouts/crypto/Sources/CCryptoOpenSSL/include"
     export *
 }
