@@ -23,7 +23,14 @@ final class Message: Content {
 }
 
 extension Message: PostgreSQLModel {}
-extension Message: Migration {}
+extension Message: Migration {
+    static func preparation(on connection: PostgreSQLConnection) -> Future<Void> {
+           return Database.create(self, on: connection, closure: { (builder) in
+               try addProperties(to: builder)
+            builder.reference(from: \.subChannelID, to: \SubChannel.id, onDelete: .cascade)
+           })
+       }
+}
 extension Message: Parameter {}
 extension Message {
     var subChannel: Parent<Message, SubChannel> {

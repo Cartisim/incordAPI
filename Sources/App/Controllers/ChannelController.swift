@@ -71,13 +71,6 @@ func getSubChannelHandler(_ request: Request) throws -> Future<[SubChannel]>{
     return try request.parameters.next(Channel.self).flatMap(to: [SubChannel].self, { (channel) -> EventLoopFuture<[SubChannel]> in
         return try channel.subChannel.query(on: request).all()
     })
-    
-    //TODO:-Delete children with parents
-//    func deleteChannelSubChannels(_ request: Request) throws -> Future<[SubChannel]> {
-//        return try request.parameters.next(Channel.self).flatMap(to: [SubChannel].self, { (channel) -> EventLoopFuture<[SubChannel]> in
-//            return channel.subChannel.parent.delete(on: request)
-//        })
-//    }
 }
 
 

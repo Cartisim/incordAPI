@@ -21,7 +21,7 @@ extension Channel: Migration {
     static func preparation(on connection: PostgreSQLConnection) -> Future<Void> {
         return Database.create(self, on: connection, closure: { (builder) in
             try addProperties(to: builder)
-            builder.reference(from: \.createAccountID, to: \CreateAccount.id)
+            builder.reference(from: \.createAccountID, to: \CreateAccount.id)  
         })
     }
 }
@@ -30,7 +30,7 @@ extension Channel: Parameter {}
 extension Channel {
     var subChannel: Children<Channel, SubChannel> {
         return children(\.channelID)
+        
     }
 }
-
 

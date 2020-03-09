@@ -1,7 +1,7 @@
 import Vapor
 import FluentPostgreSQL
 
-final class SubChannel: Content {
+final class SubChannel: Codable {
     
     var id: Int?
     var title: String
@@ -16,7 +16,14 @@ final class SubChannel: Content {
 }
 
 extension SubChannel: PostgreSQLModel {}
-extension SubChannel: Migration {}
+extension SubChannel: Migration {
+    static func preparation(on connection: PostgreSQLConnection) -> Future<Void> {
+           return Database.create(self, on: connection, closure: { (builder) in
+               try addProperties(to: builder)
+            builder.reference(from: \.channelID, to: \Channel.id, onDelete: .cascade)
+           })
+       }
+}
 extension SubChannel: Parameter {}
 extension SubChannel {
     var channel: Parent<SubChannel, Channel> {
